@@ -1,0 +1,39 @@
+services:
+  app:
+    build: .
+    container_name: python_app_capitales
+    depends_on:
+      - db
+    stdin_open: true  
+            
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=1234
+      - MYSQL_DATABASE=CAPITAL_PLAY
+    networks:
+      - app-network
+    tty: true
+ 
+  db:
+    image: mysql:8.0
+    container_name: mysql_basedatos_juego
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: CAPITAL_PLAY
+    networks:
+      - app-network
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql  
+
+networks:
+  app-network:
+    driver: bridge
+    
+volumes:
+  mysql-data:
+
+
+
